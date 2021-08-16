@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UsersController!{% endblock %}
+{% block title %}List of Users{% endblock %}
 
 {% block body %}
 <style>
@@ -9,12 +9,27 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/smartshore/public_html/pilot/src/Controller/UsersController.php'|file_link(0) }}">src/Controller/UsersController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/smartshore/public_html/pilot/templates/users/index.html.twig'|file_link(0) }}">templates/users/index.html.twig</a></code></li>
-    </ul>
+    <h1>All Users!</h1>
+    <table border="1">
+        <tr>
+            <th colspan="2">List of Users</th>
+            <th><a href="{{ path('addUser') }}">Add</a></th>
+        </tr>
+        <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Action</th>
+        </tr>
+        {% for user in users %}
+         <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+                <a href="{{ path('editUser',{'id': user.id}) }}">Edit</a> |
+                <a href="{{ path('deleteUser',{'id': user.id}) }}">Delete</a>
+            </td>
+         </tr>
+        {% endfor %}
+    </table>
 </div>
 {% endblock %}

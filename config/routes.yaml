@@ -1,3 +1,29 @@
 index:
    path: /
    controller: App\Controller\IndexController::index
+
+users:
+   path: /users
+   controller: App\Controller\UsersController::index
+
+addUser:
+   path: /users/add
+   controller: App\Controller\UsersController::addUser
+
+insertUser:
+   path: /users/insert
+   controller: App\Controller\UsersController::insertUser
+   methods: POST
+
+editUser:
+   path: /users/edit/{id}
+   controller: App\Controller\UsersController::editUser
+
+updateUser:
+   path: /users/update
+   controller: App\Controller\UsersController::updateUser
+   methods: POST
+
+deleteUser:
+   path: /users/delete/{id}
+   controller: App\Controller\UsersController::deleteUser
