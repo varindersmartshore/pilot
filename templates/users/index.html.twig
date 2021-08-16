@@ -10,6 +10,16 @@
 
 <div class="example-wrapper">
     <h1>All Users!</h1>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('failed') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
     <table border="1">
         <tr>
             <th colspan="2">List of Users</th>

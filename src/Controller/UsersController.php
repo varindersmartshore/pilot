@@ -46,7 +46,8 @@ class UsersController extends AbstractController
             $users->setStatus(1);
             $entityManager->persist($users);
             $entityManager->flush();
-            return $this->redirectToRoute('users',array('message' => 'The user is added!'));
+            $this->addFlash('success', 'The user is added!');
+            return $this->redirectToRoute('users');
         }
         return new Response('Something went wrong!');
     }
@@ -75,7 +76,8 @@ class UsersController extends AbstractController
             $user->setEmail($request->request->get('email'));
             $entityManager->persist($user);
             $entityManager->flush();
-            return $this->redirectToRoute('users',array('message' => 'The user is updated!'));
+            $this->addFlash('success', 'The user is updated!');
+            return $this->redirectToRoute('users');
         }
         return new Response('Something went wrong!');
     }
@@ -89,9 +91,11 @@ class UsersController extends AbstractController
         if (!empty($user)) {
             $entityManager->remove($user);
             $entityManager->flush();
-            return $this->redirectToRoute('users',array('message' => 'The user is deleted!'));
+            $this->addFlash('success', 'The user is deleted!');
+            return $this->redirectToRoute('users');
         } else {
-            return $this->redirectToRoute('users',array('message' => 'The user is not deleted!'));
+            $this->addFlash('failed', 'The user is not deleted!');
+            return $this->redirectToRoute('users');
         }
         
         
