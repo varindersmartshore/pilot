@@ -18,22 +18,7 @@
         {% endfor %}
         </ul>
     {% endif %}
-    <form class="ui form" action="{{path('updateUser')}}" method="post">
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate_edit_user') }}" >
-        <input type="hidden" name="id" value="{{ user.id }}">
-        <div class="field">
-            <label>Username:</label>
-            <input type="text" name="username" value="{{ user.username }}">
-        </div>
-
-        <div class="field">
-            <label>Email</label>
-            <input type="email" name="email" value="{{ user.email }}">
-        </div>
-
-        <button class="ui button" type="submit">Update</button>
-
-    </form>
+    {{ form(form, {'method': 'POST'}) }}
 </div>
 
 {% endblock %}
