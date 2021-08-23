@@ -18,7 +18,7 @@
         {% endfor %}
         </ul>
     {% endif %}
-    {{ form(form, {'method': 'POST'}) }}
+    {{ form(form, {'method': 'POST', 'attr': {'novalidate': 'novalidate'}}) }}
 </div>
 
 {% endblock %}

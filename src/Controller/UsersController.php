@@ -32,40 +32,28 @@ class UsersController extends AbstractController
         ]);
     }
 
-    // Display add user page
-    public function addUser()
+    // Display add user page and save data in database
+    public function addUser(Request $request, EntityManagerInterface $entityManager)
     {
         $user = new Users();
         $form = $this->createForm(AddUserFormType::class, $user, [
-            'action' => $this->generateUrl('insertUser'),
             'method' => 'POST',
         ]);
-        return $this->render('users/add.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    } 
 
-    // Insert new user in DB
-    public function insertUser(Request $request, ValidatorInterface $validator, EntityManagerInterface $entityManager, LoggerInterface $logger)
-    {
-        $req = $request->request->all();
-        $users = new Users;
-        $errors = $validator->validate($users);
-        if (count($errors) > 0) {
-            $errorsString = (string) $errors;
-            return new Response($errorsString);
-        } else {
-            $users->setUsername($req['add_user_form']['username']);
-            $users->setPassword($req['add_user_form']['password']['first']);
-            $users->setEmail($req['add_user_form']['email']);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $users = $form->getData();
             $users->setStatus(1);
             $entityManager->persist($users);
             $entityManager->flush();
             $this->addFlash('success', 'The user is added!');
             return $this->redirectToRoute('users');
+
         }
-        return new Response('Something went wrong!');
-    }
+        return $this->render('users/add.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    } 
 
     // Display edit user page with specific id
     public function editUser(int $id)
@@ -111,8 +99,8 @@ class UsersController extends AbstractController
         if (!empty($user)) {
             $entityManager->remove($user);
             $entityManager->flush();
-            $this->addFlash('success', 'The user is deleted!');
-            return $this->redirectToRoute('users');
+            $response = new Response();
+            $response->send();
         } else {
             $this->addFlash('failed', 'The user not found!');
             return $this->redirectToRoute('users');
