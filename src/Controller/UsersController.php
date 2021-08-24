@@ -56,46 +56,30 @@ class UsersController extends AbstractController
     } 
 
     // Display edit user page with specific id
-    public function editUser(int $id)
+    public function editUser(int $id, Request $request, EntityManagerInterface $entityManager)
     {
         $user = new Users();
         $user = $this->getDoctrine()->getRepository(Users::class)->find($id);
         $form = $this->createForm(AddUserFormType::class, $user, [
-            'action' => $this->generateUrl('updateUser'),
             'method' => 'POST',
         ]);
-        return $this->render('users/edit.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    } 
-
-    // Update an existing user
-    public function updateUser(Request $request, ValidatorInterface $validator, EntityManagerInterface $entityManager)
-    {
-        $users = new Users;
-        $errors = $validator->validate($users);
-        if (count($errors) > 0) {
-            $errorsString = (string) $errors;
-            return new Response($errorsString);
-        } else {
-            $user = $this->getDoctrine()->getRepository(Users::class)->findOneBy(['id'=>$request->request->get('id')]);
-            $user->setUsername($request->request->get('username'));
-            $user->setEmail($request->request->get('email'));
-            $entityManager->persist($user);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $users = $form->getData();
+            $entityManager->persist($users);
             $entityManager->flush();
             $this->addFlash('success', 'The user is updated!');
             return $this->redirectToRoute('users');
         }
-        return new Response('Something went wrong!');
-    }
+        return $this->render('users/edit.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    } 
     
     // Delete existing user
     public function deleteUser(int $id, EntityManagerInterface $entityManager)
     {
-        $repository = $this->getDoctrine()->getRepository(Users::class);
-        $user = $repository->findOneBy([
-            'id' => $id,
-        ]);
+        $user = $this->getDoctrine()->getRepository(Users::class)->find($id);
         if (!empty($user)) {
             $entityManager->remove($user);
             $entityManager->flush();

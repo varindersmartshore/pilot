@@ -27,4 +27,4 @@ updateUser:
 deleteUser:
    path: /users/delete/{id}
    controller: App\Controller\UsersController::deleteUser
-   methods: DELETE
+   methods: GET

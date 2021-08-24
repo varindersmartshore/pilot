@@ -39,8 +39,14 @@ class AddUserFormType extends AbstractType
                     new NotBlank(),
                     new NotNull(),
                 ],
+            ])            
+            ->add('save', SubmitType::class, [
+                'attr' => ['class' => 'btn btn-primary mt-3'],
             ])
-            ->add('password', RepeatedType::class,[
+        ;
+
+        if ($options['data']->getId() == NULL) {
+            $builder->add('password', RepeatedType::class,[
                 'type' => PasswordType::class,
                 'invalid_message' => 'The password fields must match.',
                 'options' => ['attr' => ['class' => 'form-control']],
@@ -51,14 +57,8 @@ class AddUserFormType extends AbstractType
                     new NotBlank(),
                     new NotNull(),
                 ],
-            ])
-            ->add('save', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-primary mt-3'],
-            ])
-            ->add('reset', ResetType::class, [
-                'attr' => ['class' => 'btn btn-light mt-3'],
-            ])
-        ;
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver)
