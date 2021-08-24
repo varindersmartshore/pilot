@@ -6,6 +6,7 @@ use App\Entity\Users;
 use App\Form\AddUserFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,6 +21,13 @@ use Psr\Log\LoggerInterface;
 
 class UsersController extends AbstractController
 {
+    private $passwordEncoder;
+
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $this->passwordEncoder = $passwordEncoder;        
+    }
+
     // Display list of users
     public function index()
     {
@@ -33,7 +41,7 @@ class UsersController extends AbstractController
     }
 
     // Display add user page and save data in database
-    public function addUser(Request $request, EntityManagerInterface $entityManager)
+    public function addUser(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder)
     {
         $user = new Users();
         $form = $this->createForm(AddUserFormType::class, $user, [
@@ -42,9 +50,15 @@ class UsersController extends AbstractController
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
-            $users = $form->getData();
-            $users->setStatus(1);
-            $entityManager->persist($users);
+            // encode the plain password
+            $user->setPassword(
+                $passwordEncoder->encodePassword(
+                    $user,
+                    $user->getPassword()
+                )
+            );
+            $user->setStatus(1);
+            $entityManager->persist($user);
             $entityManager->flush();
             $this->addFlash('success', 'The user is added!');
             return $this->redirectToRoute('users');

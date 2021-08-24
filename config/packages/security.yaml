@@ -1,4 +1,7 @@
 security:
+    encoders:
+        App\Entity\Users:
+            algorithm: auto
     # https://symfony.com/doc/current/security/experimental_authenticators.html
     enable_authenticator_manager: true
     # https://symfony.com/doc/current/security.html#c-hashing-passwords
@@ -21,6 +24,11 @@ security:
         main:
             lazy: true
             provider: users_in_memory
+            custom_authenticator: App\Security\AppCustomAuthenticator
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                # target: app_any_route
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
