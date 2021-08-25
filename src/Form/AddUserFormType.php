@@ -14,6 +14,8 @@ use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
 
 class AddUserFormType extends AbstractType
 {
@@ -57,7 +59,26 @@ class AddUserFormType extends AbstractType
                     new NotBlank(),
                     new NotNull(),
                 ],
-            ]);
+            ])->add('profile', FileType::class, [
+                'label' => 'Profile Picture',
+                'attr' => array(
+                    'class' => 'form-control'
+                ),
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            "image/png",
+                            "image/jpg",
+                            "image/jpeg"
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid jpg or png format',
+                    ])
+                ],
+            ])
+            ;
         }
     }
 

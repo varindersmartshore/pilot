@@ -18,6 +18,8 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class UsersController extends AbstractController
 {
@@ -41,7 +43,7 @@ class UsersController extends AbstractController
     }
 
     // Display add user page and save data in database
-    public function addUser(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder)
+    public function addUser(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder, SluggerInterface $slugger)
     {
         $user = new Users();
         $form = $this->createForm(AddUserFormType::class, $user, [
@@ -50,6 +52,24 @@ class UsersController extends AbstractController
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
+            $profile = $form->get('profile')->getData();
+            if ($profile) {
+                $originalFilename = pathinfo($profile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$profile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $profile->move(
+                        $this->getParameter('kernel.project_dir').'/public/profile_pictures',
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $user->setProfile($newFilename);
+            }
             // encode the plain password
             $user->setPassword(
                 $passwordEncoder->encodePassword(

@@ -38,6 +38,11 @@ class Users implements UserInterface
      */
     private $status;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $profile;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -93,4 +98,16 @@ class Users implements UserInterface
     public function getRoles(){}
     public function eraseCredentials(){}
     public function getSalt(){}
+
+    public function getProfile(): ?string
+    {
+        return $this->profile;
+    }
+
+    public function setProfile(?string $profile): self
+    {
+        $this->profile = $profile;
+
+        return $this;
+    }
 }
