@@ -43,7 +43,7 @@ class UsersController extends AbstractController
     }
 
     // Display add user page and save data in database
-    public function addUser(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder, SluggerInterface $slugger)
+    public function addUser(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger)
     {
         $user = new Users();
         $form = $this->createForm(AddUserFormType::class, $user, [
@@ -70,13 +70,6 @@ class UsersController extends AbstractController
                 }
                 $user->setProfile($newFilename);
             }
-            // encode the plain password
-            $user->setPassword(
-                $passwordEncoder->encodePassword(
-                    $user,
-                    $user->getPassword()
-                )
-            );
             $user->setStatus(1);
             $entityManager->persist($user);
             $entityManager->flush();

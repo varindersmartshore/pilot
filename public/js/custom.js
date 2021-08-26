@@ -13,7 +13,7 @@ if (user) {
                     alert('No data id found');
                 }
             } else {
-                alert('Invalid Id');
+                return false;
             }
         }
     });

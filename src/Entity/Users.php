@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * @ORM\Entity(repositoryClass=UsersRepository::class)
  */
-class Users implements UserInterface
+class Users
 {
     /**
      * @ORM\Id
@@ -22,11 +22,6 @@ class Users implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $username;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $password;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -60,18 +55,6 @@ class Users implements UserInterface
         return $this;
     }
 
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
     public function getEmail(): ?string
     {
         return $this->email;
@@ -95,9 +78,6 @@ class Users implements UserInterface
 
         return $this;
     }
-    public function getRoles(){}
-    public function eraseCredentials(){}
-    public function getSalt(){}
 
     public function getProfile(): ?string
     {
