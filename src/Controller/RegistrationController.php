@@ -79,7 +79,7 @@ class RegistrationController extends AbstractController
             $entityManager->persist($users);
             $entityManager->flush();
             $this->addFlash('success', 'Your email address has been verified.');
-            return $this->redirectToRoute('users');
+            return $this->redirectToRoute('app_login');
         } else {
             $this->addFlash('error', 'Your link is not valid.');
             return $this->redirectToRoute('app_register');
