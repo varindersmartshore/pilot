@@ -20,6 +20,7 @@ security:
             security: false
         main:
             lazy: true
+            user_checker: App\Security\UserChecker
             custom_authenticator: App\Security\LoginControllerAuthenticator
             logout:
                 path: app_logout
