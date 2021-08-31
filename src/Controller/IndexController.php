@@ -11,10 +11,7 @@ class IndexController extends AbstractController
 {
     public function index()
     {
-        $your_name = "Welcome!";
-        return $this->render('index.html.twig', [
-            'your_name' => $your_name,
-        ]);
+        return $this->redirectToRoute('users');
     }
 }
 ?>

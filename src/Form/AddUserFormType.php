@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Validator\Constraints\File;
 
@@ -27,7 +28,6 @@ class AddUserFormType extends AbstractType
                 ),
                 'constraints' => [
                     new NotBlank(),
-                    new NotNull(),
                 ],
             ])
             ->add('email', EmailType::class,[
@@ -37,7 +37,7 @@ class AddUserFormType extends AbstractType
                 ),
                 'constraints' => [
                     new NotBlank(),
-                    new NotNull(),
+                    new Email()
                 ],
             ])            
             ->add('save', SubmitType::class, [

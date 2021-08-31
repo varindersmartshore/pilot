@@ -6,7 +6,7 @@
 
 <div class="container">
     <h1>Edit User</h1>
-    {{ form_start(form, {'method': 'POST'}) }}
+    {{ form_start(form, {'method': 'POST',attr: {'novalidate': 'novalidate'}}) }}
         {{ form_row(form.username) }}
         {{ form_row(form.email) }}
         {{ form_row(form.save) }}

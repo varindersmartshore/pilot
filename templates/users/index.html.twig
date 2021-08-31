@@ -18,11 +18,12 @@
     <table class="table table-striped" id="users_list">
         <thead>
             <tr>
-                <th colspan="2">List of Users</th>
+                <th colspan="3">List of Users</th>
                 <th><a href="{{ path('addUser') }}" class="btn btn-success">Add</a></th>
             </tr>
             <tr>
                 <th>ID</th>
+                <th>Image</th>
                 <th>Email</th>
                 <th>Action</th>
             </tr>
@@ -31,6 +32,7 @@
             {% for user in users %}
             <tr>
                 <td>{{ user.id }}</td>
+                <td><img src="{{asset('public/profile_pictures')}}/{{ user.profile }}"></td>
                 <td>{{ user.email }}</td>
                 <td>
                     <a href="{{ path('editUser',{'id': user.id}) }}" class="btn btn-dark">Edit</a>
@@ -40,7 +42,7 @@
             {% endfor %}
         {% else %}
         <tr>
-            <td colspan="3">No users to display</td>
+            <td colspan="4">No users to display</td>
         </tr>
         {% endif %}
     </table>

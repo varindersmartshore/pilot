@@ -4,7 +4,6 @@ if (user) {
         if (e.target.className === 'btn btn-danger delete-user') {
             if (confirm('Are you sure?')) {
                 const id = parseInt(e.target.getAttribute('data-id'));
-
                 if(id) {
                     fetch('/users/delete/'+id,{
                         method: 'GET'
