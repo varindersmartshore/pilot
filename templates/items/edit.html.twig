@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}All Items{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <h1>Edit Item</h1>
+    {{ form_start(form, {'method': 'POST',attr: {'novalidate': 'novalidate'}}) }}
+        {{ form_row(form.item_name) }}
+        {{ form_row(form.save) }}
+    {{ form_end(form) }}
+</div>
+
+{% endblock %}

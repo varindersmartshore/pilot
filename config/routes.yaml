@@ -28,3 +28,29 @@ deleteUser:
    path: /users/delete/{id}
    controller: App\Controller\UsersController::deleteUser
    methods: GET
+
+addList:
+   path: /lists/add
+   controller: App\Controller\ListsController::addList
+
+editList:
+   path: /lists/edit/{id}
+   controller: App\Controller\ListsController::editList
+
+deleteList:
+   path: /lists/delete
+   controller: App\Controller\ListsController::deleteList
+   methods: POST
+
+addItem:
+   path: /items/add/{id}
+   controller: App\Controller\ItemsController::addItem
+
+editItem:
+   path: /items/edit/{id}
+   controller: App\Controller\ItemsController::editItem
+
+deleteItem:
+   path: /items/delete
+   controller: App\Controller\ItemsController::deleteItem
+   methods: POST
