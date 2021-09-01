@@ -8,6 +8,7 @@
     <h1>Edit Item</h1>
     {{ form_start(form, {'method': 'POST',attr: {'novalidate': 'novalidate'}}) }}
         {{ form_row(form.item_name) }}
+        {{ form_row(form.color) }}
         {{ form_row(form.save) }}
     {{ form_end(form) }}
 </div>

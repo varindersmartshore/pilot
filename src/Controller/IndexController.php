@@ -19,10 +19,8 @@ class IndexController extends AbstractController
     {
         if ($this->getUser()) {
             $lists = $this->getDoctrine()->getRepository(Lists::class)->findAll();
-            $items = $this->getDoctrine()->getRepository(Items::class)->findAll();
             return $this->render('index.html.twig', [
                 'lists' => $lists,
-                'items' => $items,
             ]);
         } else {
             return $this->redirectToRoute('app_login');

@@ -33,6 +33,19 @@ class ItemsController extends AbstractController
         ]);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
+            $req = $request->request->all();
+            $getOrder = $req['items_form']['order_by'];
+            $getFirstItem = $this->getDoctrine()->getRepository(Items::class)->findOneBy(array(), array('order_by' => 'ASC'));
+            $getLastItem = $this->getDoctrine()->getRepository(Items::class)->findOneBy(array(), array('order_by' => 'DESC'));
+            $top = $getFirstItem->getOrderBy() - 1;
+            $bottom = $getLastItem->getOrderBy() + 1;
+            if($getOrder == 'top') {
+                $item->setOrderBy($top);
+            }else if($getOrder == 'bottom') {
+                $item->setOrderBy($bottom);
+            } else {
+                $item->setOrderBy($getLastItem->getOrderBy());
+            }
             $item->setListId($list);
             $entityManager->persist($item);
             $entityManager->flush();

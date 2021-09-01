@@ -41,7 +41,7 @@
                                     {% for item in list.getItems(list.id) %}
                                         <tr>
                                             <td>
-                                                {{ item.getItemName(item.id) }}
+                                                <span style="color: {{item.getColor(item.id)}} ">{{ item.getItemName(item.id) }}</span>
                                                 <a href="{{ path('editItem',{'id': item.id}) }}" class="btn btn-success"><i class="fa fa-edit" aria-hidden="true"></i></a>
                                                 <form method="POST" class="float-right" action="{{ path('deleteItem') }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
                                                     <input type="hidden" name="_method" value="DELETE">

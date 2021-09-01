@@ -28,6 +28,16 @@ class Items
      */
     private $list_id;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $color;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $order_by;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -53,6 +63,30 @@ class Items
     public function setListId(?Lists $list_id): self
     {
         $this->list_id = $list_id;
+
+        return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(?string $color): self
+    {
+        $this->color = $color;
+
+        return $this;
+    }
+
+    public function getOrderBy(): ?string
+    {
+        return $this->order_by;
+    }
+
+    public function setOrderBy(string $order_by): self
+    {
+        $this->order_by = $order_by;
 
         return $this;
     }
