@@ -7,6 +7,8 @@ use App\Entity\Items;
 use App\Form\ItemsFormType;
 use App\Form\DeleteItemFormType;
 use App\Form\ListsFormType;
+use App\Repository\ListsRepository;
+use App\Repository\ItemsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\DBAL\Driver\Connection;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +20,10 @@ class IndexController extends AbstractController
     public function index()
     {
         if ($this->getUser()) {
-            $lists = $this->getDoctrine()->getRepository(Lists::class)->findAll();
+            $lists = $this->getDoctrine()
+                    ->getRepository(Lists::class)
+                    ->findAll();
+                    // ->findByOrderJoinedToList('order_by');
             return $this->render('index.html.twig', [
                 'lists' => $lists,
             ]);

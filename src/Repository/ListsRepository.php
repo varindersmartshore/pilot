@@ -19,20 +19,17 @@ class ListsRepository extends ServiceEntityRepository
         parent::__construct($registry, Lists::class);
     }
 
-    public function getSortedItemsByOrder(int $listId): ?Lists
+    public function findByOrderJoinedToList(string $param): ?array
     {
-        $entityManager = $this->getEntityManager();
-
-        $query = $entityManager->createQuery(
-            'SELECT l, i
-            FROM App\Entity\Lists l
-            INNER JOIN l.items i
-            ORDER BY i.order_by ASC 
-            WHERE l.id = :id'
-            
-        )->setParameter('id', $listId);
-
-        return $query->getOneOrNullResult();
+        $result = $this->createQueryBuilder('l')
+            ->select('l.id, l.list_name, i.id as item_id, i.item_name, i.color')
+            ->leftJoin('l.items', 'i')
+            ->orderBy('i.'.$param, 'ASC')
+            ->orderBy('l.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+        return $result;
     }
 
     // /**

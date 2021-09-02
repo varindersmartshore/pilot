@@ -38,26 +38,28 @@ class ItemsFormType extends AbstractType
                         'message' => 'Please select a color',
                     ]),
                 ],
-            ])
-            ->add('order_by',ChoiceType::class,[
-                'label' => 'Select a position',
-                'attr' => array(
-                    'class' => 'form-control'
-                ),
-                'choices' => [
-                    'Place on top of list' => 'top',
-                    'Place on bottom of list' => 'bottom',
-                ],
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please select a position',
-                    ]),
-                ],
-            ])
-            ->add('save', SubmitType::class, [
+            ])->add('save', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-primary mt-3'],
-            ])
-        ;
+            ]);
+            if ($options['data']->getId() == NULL) {
+                $builder->add('order_by',ChoiceType::class,[
+                    'label' => 'Select a position',
+                    'attr' => array(
+                        'class' => 'form-control'
+                    ),
+                    'choices' => [
+                        'Place on top of list' => 'top',
+                        'Place on bottom of list' => 'bottom',
+                    ],
+                    'constraints' => [
+                        new NotBlank([
+                            'message' => 'Please select a position',
+                        ]),
+                    ],
+                ]);
+            }
+            
+        
     }
 
     public function configureOptions(OptionsResolver $resolver)

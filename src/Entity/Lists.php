@@ -26,6 +26,7 @@ class Lists
 
     /**
      * @ORM\OneToMany(targetEntity=Items::class, mappedBy="list_id", orphanRemoval=true)
+     * @ORM\OrderBy({"order_by"="ASC"})
      */
     private $items;
 
