@@ -58,8 +58,8 @@ class ListsController extends AbstractController
             ]);
             $form->handleRequest($request);
             if($form->isSubmitted() && $form->isValid()) {
-                $lists = $form->getData();
-                $entityManager->persist($lists);
+                //$lists = $form->getData();
+                $entityManager->persist($list);
                 $entityManager->flush();
                 $this->addFlash('success', 'The list is updated!');
                 return $this->redirectToRoute('index');

@@ -39,7 +39,7 @@ class ItemsController extends AbstractController
                 $getFirstItem = $this->getDoctrine()->getRepository(Items::class)->findOneBy(array(), array('order_by' => 'ASC'));
                 $getLastItem = $this->getDoctrine()->getRepository(Items::class)->findOneBy(array(), array('order_by' => 'DESC'));
                 $top = (!empty($getFirstItem)) ? $getFirstItem->getOrderBy() - 1 : 0 ;
-                $bottom = (!empty($getFirstItem)) ? $getFirstItem->getOrderBy() + 1 : 0 ;
+                $bottom = (!empty($getLastItem)) ? $getLastItem->getOrderBy() + 1 : 0 ;
                 if($getOrder == 'top') {
                     $item->setOrderBy($top);
                 }else if($getOrder == 'bottom') {
