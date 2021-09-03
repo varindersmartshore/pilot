@@ -33,6 +33,7 @@ class ListsController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
             $list = $form->getData();
+            $list->setUser($this->getUser());
             $entityManager->persist($list);
             $entityManager->flush();
             $this->addFlash('success', 'The list is added!');
@@ -47,21 +48,29 @@ class ListsController extends AbstractController
     public function editList(int $id, Request $request, EntityManagerInterface $entityManager)
     {
         $list = new Lists();
-        $list = $this->getDoctrine()->getRepository(Lists::class)->find($id);
-        $form = $this->createForm(ListsFormType::class, $list, [
-            'method' => 'POST',
+        $list = $this->getDoctrine()->getRepository(Lists::class)->findOneBy([
+            'id' => $id,
+            'user' => $this->getUser(),
         ]);
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()) {
-            $lists = $form->getData();
-            $entityManager->persist($lists);
-            $entityManager->flush();
-            $this->addFlash('success', 'The list is updated!');
+        if(!empty($list)){
+            $form = $this->createForm(ListsFormType::class, $list, [
+                'method' => 'POST',
+            ]);
+            $form->handleRequest($request);
+            if($form->isSubmitted() && $form->isValid()) {
+                $lists = $form->getData();
+                $entityManager->persist($lists);
+                $entityManager->flush();
+                $this->addFlash('success', 'The list is updated!');
+                return $this->redirectToRoute('index');
+            }
+            return $this->render('lists/edit.html.twig', [
+                'form' => $form->createView(),
+            ]);
+        } else {
+            $this->addFlash('failed', 'Please select valid item!');
             return $this->redirectToRoute('index');
         }
-        return $this->render('lists/edit.html.twig', [
-            'form' => $form->createView(),
-        ]);
     }
 
     // Delete existing list

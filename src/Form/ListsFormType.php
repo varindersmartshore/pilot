@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -24,6 +25,7 @@ class ListsFormType extends AbstractType
                     new NotBlank([
                         'message' => 'Please enter a list name',
                     ]),
+                    new Regex('/^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$/'),
                 ],
             ])
             ->add('save', SubmitType::class, [

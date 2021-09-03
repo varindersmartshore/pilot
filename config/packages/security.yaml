@@ -41,4 +41,6 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
          - { path: ^/users, roles: IS_AUTHENTICATED_FULLY }
+         - { path: ^/items, roles: IS_AUTHENTICATED_FULLY }
+         - { path: ^/lists, roles: IS_AUTHENTICATED_FULLY }
          - { path: ^/index, roles: IS_AUTHENTICATED_FULLY }

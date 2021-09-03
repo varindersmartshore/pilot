@@ -28,34 +28,39 @@ class ItemsController extends AbstractController
     {
         $item = new Items();
         $list = $this->getDoctrine()->getRepository(Lists::class)->find($id);
-        $form = $this->createForm(ItemsFormType::class, $item, [
-            'method' => 'POST',
-        ]);
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()) {
-            $req = $request->request->all();
-            $getOrder = $req['items_form']['order_by'];
-            $getFirstItem = $this->getDoctrine()->getRepository(Items::class)->findOneBy(array(), array('order_by' => 'ASC'));
-            $getLastItem = $this->getDoctrine()->getRepository(Items::class)->findOneBy(array(), array('order_by' => 'DESC'));
-            $top = $getFirstItem->getOrderBy() - 1;
-            $bottom = $getLastItem->getOrderBy() + 1;
-            if($getOrder == 'top') {
-                $item->setOrderBy($top);
-            }else if($getOrder == 'bottom') {
-                $item->setOrderBy($bottom);
-            } else {
-                $item->setOrderBy($getLastItem->getOrderBy());
-            }
-            $item->setListId($list);
-            $entityManager->persist($item);
-            $entityManager->flush();
-            $this->addFlash('success', 'The item is added!');
-            return $this->redirectToRoute('index');
+        if(!empty($list)){
+            $form = $this->createForm(ItemsFormType::class, $item, [
+                'method' => 'POST',
+            ]);
+            $form->handleRequest($request);
+            if($form->isSubmitted() && $form->isValid()) {
+                $req = $request->request->all();
+                $getOrder = $req['items_form']['order_by'];
+                $getFirstItem = $this->getDoctrine()->getRepository(Items::class)->findOneBy(array(), array('order_by' => 'ASC'));
+                $getLastItem = $this->getDoctrine()->getRepository(Items::class)->findOneBy(array(), array('order_by' => 'DESC'));
+                $top = (!empty($getFirstItem)) ? $getFirstItem->getOrderBy() - 1 : 0 ;
+                $bottom = (!empty($getFirstItem)) ? $getFirstItem->getOrderBy() + 1 : 0 ;
+                if($getOrder == 'top') {
+                    $item->setOrderBy($top);
+                }else if($getOrder == 'bottom') {
+                    $item->setOrderBy($bottom);
+                } else {
+                    $item->setOrderBy($getLastItem->getOrderBy());
+                }
+                $item->setListId($list);
+                $entityManager->persist($item);
+                $entityManager->flush();
+                $this->addFlash('success', 'The item is added!');
+                return $this->redirectToRoute('index');
 
+            }
+            return $this->render('items/add.html.twig', [
+                'form' => $form->createView(),
+            ]);
+        } else {
+            $this->addFlash('failed', 'Please select valid list!');
+            return $this->redirectToRoute('index');
         }
-        return $this->render('items/add.html.twig', [
-            'form' => $form->createView(),
-        ]);
     }
 
     // Display edit item page with specific id
@@ -63,20 +68,25 @@ class ItemsController extends AbstractController
     {
         $item = new Items();
         $item = $this->getDoctrine()->getRepository(Items::class)->find($id);
-        $form = $this->createForm(ItemsFormType::class, $item, [
-            'method' => 'POST',
-        ]);
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()) {
-            $items = $form->getData();
-            $entityManager->persist($items);
-            $entityManager->flush();
-            $this->addFlash('success', 'The item is updated!');
+        if(!empty($item)){
+            $form = $this->createForm(ItemsFormType::class, $item, [
+                'method' => 'POST',
+            ]);
+            $form->handleRequest($request);
+            if($form->isSubmitted() && $form->isValid()) {
+                $items = $form->getData();
+                $entityManager->persist($items);
+                $entityManager->flush();
+                $this->addFlash('success', 'The item is updated!');
+                return $this->redirectToRoute('index');
+            }
+            return $this->render('items/edit.html.twig', [
+                'form' => $form->createView(),
+            ]);
+        } else {
+            $this->addFlash('failed', 'Please select valid item!');
             return $this->redirectToRoute('index');
         }
-        return $this->render('items/edit.html.twig', [
-            'form' => $form->createView(),
-        ]);
     }
 
     // Delete existing item

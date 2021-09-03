@@ -33,6 +33,7 @@ class UsersController extends AbstractController
     // Display list of users
     public function index()
     {
+        return $this->redirectToRoute('index');
         $repository = $this->getDoctrine()->getRepository(Users::class);
         $users = $repository->findBy([
             'status' => 1,
@@ -45,6 +46,7 @@ class UsersController extends AbstractController
     // Display add user page and save data in database
     public function addUser(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger)
     {
+        return $this->redirectToRoute('index');
         $user = new Users();
         $form = $this->createForm(AddUserFormType::class, $user, [
             'method' => 'POST',
@@ -85,6 +87,7 @@ class UsersController extends AbstractController
     // Display edit user page with specific id
     public function editUser(int $id, Request $request, EntityManagerInterface $entityManager)
     {
+        return $this->redirectToRoute('index');
         $user = new Users();
         $user = $this->getDoctrine()->getRepository(Users::class)->find($id);
         $form = $this->createForm(AddUserFormType::class, $user, [
@@ -106,6 +109,7 @@ class UsersController extends AbstractController
     // Delete existing user
     public function deleteUser(int $id, EntityManagerInterface $entityManager)
     {
+        return $this->redirectToRoute('index');
         $user = $this->getDoctrine()->getRepository(Users::class)->find($id);
         if (!empty($user)) {
             $entityManager->remove($user);

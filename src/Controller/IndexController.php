@@ -22,8 +22,7 @@ class IndexController extends AbstractController
         if ($this->getUser()) {
             $lists = $this->getDoctrine()
                     ->getRepository(Lists::class)
-                    ->findAll();
-                    // ->findByOrderJoinedToList('order_by');
+                    ->findBy(['user' => $this->getUser()->getId()]);
             return $this->render('index.html.twig', [
                 'lists' => $lists,
             ]);

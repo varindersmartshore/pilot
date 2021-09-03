@@ -30,6 +30,12 @@ class Lists
      */
     private $items;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="lists")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
     public function __construct()
     {
         $this->items = new ArrayCollection();
@@ -78,6 +84,18 @@ class Lists
                 $item->setListId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
