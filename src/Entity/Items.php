@@ -34,7 +34,7 @@ class Items
     private $color;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="decimal", length=65)
      */
     private $order_by;
 

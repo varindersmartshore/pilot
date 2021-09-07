@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ListsController extends AbstractController
 {
@@ -23,7 +24,7 @@ class ListsController extends AbstractController
     }
 
     // Display add list page and save data in database
-    public function addList(Request $request, EntityManagerInterface $entityManager)
+    public function addList(Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator)
     {
         $list = new Lists();
         $form = $this->createForm(ListsFormType::class, $list, [

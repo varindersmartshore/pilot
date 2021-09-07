@@ -21,12 +21,12 @@ class ListsFormType extends AbstractType
                 'attr' => array(
                     'class' => 'form-control'
                 ),
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a list name',
-                    ]),
-                    new Regex('/^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$/'),
-                ],
+                // 'constraints' => [
+                //     new NotBlank([
+                //         'message' => 'Please enter a list name',
+                //     ]),
+                //     new Regex('/^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$/'),
+                // ],
             ])
             ->add('save', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-primary mt-3'],

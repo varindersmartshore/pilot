@@ -6,12 +6,14 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Email;
 
 class RegistrationFormType extends AbstractType
 {
@@ -26,6 +28,9 @@ class RegistrationFormType extends AbstractType
                     new NotBlank([
                         'message' => 'Please enter a email',
                     ]),
+                    new Email([
+                        'message' => 'Please enter a valid format',
+                    ]),
                 ],
             ])
             ->add('agreeTerms', CheckboxType::class, [
@@ -36,14 +41,20 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('plainPassword', PasswordType::class, [
+            ->add('plainPassword', RepeatedType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
+                'type' => PasswordType::class,
+                'invalid_message' => 'The password fields must match.',
+                'options' => ['attr' => ['class' => 'form-control password-field', 'autocomplete' => 'new-password',]],
+                'required' => true,
+                'first_options'  => ['label' => 'Password'],
+                'second_options' => ['label' => 'Confirm Password'],
                 'mapped' => false,
-                'attr' => [
-                    'autocomplete' => 'new-password',
-                    'class' => 'form-control'
-                ],
+                // 'attr' => [
+                //     'autocomplete' => 'new-password',
+                //     'class' => 'form-control'
+                // ],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter a password',

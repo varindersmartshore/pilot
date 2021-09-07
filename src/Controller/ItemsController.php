@@ -34,18 +34,14 @@ class ItemsController extends AbstractController
             ]);
             $form->handleRequest($request);
             if($form->isSubmitted() && $form->isValid()) {
-                $req = $request->request->all();
-                $getOrder = $req['items_form']['order_by'];
-                $getFirstItem = $this->getDoctrine()->getRepository(Items::class)->findOneBy(array(), array('order_by' => 'ASC'));
-                $getLastItem = $this->getDoctrine()->getRepository(Items::class)->findOneBy(array(), array('order_by' => 'DESC'));
-                $top = (!empty($getFirstItem)) ? $getFirstItem->getOrderBy() - 1 : 0 ;
-                $bottom = (!empty($getLastItem)) ? $getLastItem->getOrderBy() + 1 : 0 ;
+                $getOrder = $form->getData()->getOrderBy();
+                $getMinMaxOrder = $this->getDoctrine()->getRepository(Items::class)->findOneByListIdGetMinMaxOrderBy($list);
                 if($getOrder == 'top') {
-                    $item->setOrderBy($top);
+                    $item->setOrderBy($getMinMaxOrder['min_order_by'] - 1);
                 }else if($getOrder == 'bottom') {
-                    $item->setOrderBy($bottom);
+                    $item->setOrderBy($getMinMaxOrder['max_order_by'] + 1);
                 } else {
-                    $item->setOrderBy($getLastItem->getOrderBy());
+                    $item->setOrderBy($getMinMaxOrder['max_order_by']);
                 }
                 $item->setListId($list);
                 $entityManager->persist($item);

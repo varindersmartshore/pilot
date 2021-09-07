@@ -19,6 +19,19 @@ class ItemsRepository extends ServiceEntityRepository
         parent::__construct($registry, Items::class);
     }
 
+    public function findOneByListIdGetMinMaxOrderBy($listId): ?array
+    {
+        $result = $this->createQueryBuilder('i')
+            ->select('MIN(i.order_by) as min_order_by, MAX(i.order_by) as max_order_by')
+            ->leftJoin('i.list_id', 'l')
+            ->where('l.id = :listId')
+            ->setParameter('listId', $listId->getId())
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+        return $result;
+    }
+
     // /**
     //  * @return Items[] Returns an array of Items objects
     //  */
