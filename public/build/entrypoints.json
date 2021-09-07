@@ -1,0 +1,24 @@
+{
+  "entrypoints": {
+    "app": {
+      "js": [
+        "/build/runtime.js",
+        "/build/vendors-node_modules_core-js_internals_export_js-node_modules_core-js_internals_function-bind-7be9a5.js",
+        "/build/vendors-node_modules_fortawesome_fontawesome-free_js_all_js-node_modules_symfony_stimulus-bri-691cee.js",
+        "/build/app.js"
+      ],
+      "css": [
+        "/build/vendors-node_modules_fortawesome_fontawesome-free_js_all_js-node_modules_symfony_stimulus-bri-691cee.css",
+        "/build/app.css"
+      ]
+    },
+    "custom": {
+      "js": [
+        "/build/runtime.js",
+        "/build/vendors-node_modules_core-js_internals_export_js-node_modules_core-js_internals_function-bind-7be9a5.js",
+        "/build/vendors-node_modules_core-js_modules_es_parse-int_js-node_modules_core-js_modules_es_promise_js.js",
+        "/build/custom.js"
+      ]
+    }
+  }
+}

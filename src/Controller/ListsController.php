@@ -13,6 +13,12 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ListsController extends AbstractController
 {
+    private $validator;
+    public function __construct(
+        ValidatorInterface $validator
+    ) {
+        $this->validator = $validator;
+    }
     /**
      * @Route("/lists", name="lists")
      */
@@ -24,9 +30,10 @@ class ListsController extends AbstractController
     }
 
     // Display add list page and save data in database
-    public function addList(Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator)
+    public function addList(Request $request, EntityManagerInterface $entityManager)
     {
         $list = new Lists();
+        
         $form = $this->createForm(ListsFormType::class, $list, [
             'method' => 'POST',
         ]);
@@ -34,6 +41,21 @@ class ListsController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
             $list = $form->getData();
+            $validator = $this->validator;
+            $errors = $validator->validate($list);
+
+            if (count($errors) > 0) {
+                /*
+                * Uses a __toString method on the $errors variable which is a
+                * ConstraintViolationList object. This gives us a nice string
+                * for debugging.
+                */
+                $errorsString = (string) $errors;
+                dd($errorsString);
+                return new Response($errorsString);
+            } else {
+                dd('no error');
+            }
             $list->setUser($this->getUser());
             $entityManager->persist($list);
             $entityManager->flush();

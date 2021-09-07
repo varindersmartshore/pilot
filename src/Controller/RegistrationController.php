@@ -57,7 +57,7 @@ class RegistrationController extends AbstractController
             ;
             $mailer->send($email);
 
-            $this->addFlash('success', 'Verification link sent to your email.');
+            $this->addFlash('success', 'Confirmation link sent to your email.');
             return $this->redirectToRoute('app_login');
         }
 
