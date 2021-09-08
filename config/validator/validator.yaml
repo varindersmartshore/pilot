@@ -1,23 +1,31 @@
 App\Entity\Lists:
     properties:
         list_name:
-            - NotBlank: ~
+            - NotBlank:
+                message: Please enter list name
             - Regex:
                 pattern: /^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$/
+                message: Please enter list name in valid format
 
 App\Entity\Items:
     properties:
         item_name:
-            - NotBlank: ~
+            - NotBlank:
+                message: Please enter item name
             - Regex:
                 pattern: /^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$/
+                message: Please enter item name in valid format
         color:
-            - NotBlank: ~
+            - NotBlank:
+                message: Please select color
         order_by:
-            - NotBlank: ~
+            - NotBlank:
+                message: Please select item position
 
 App\Entity\User:
     properties:
         email:
-            - NotBlank: ~
-            - Email: ~
+            - NotBlank:
+                message: Please enter email
+            - Email:
+                message: Please enter email in valid format
