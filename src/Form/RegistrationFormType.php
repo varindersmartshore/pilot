@@ -24,14 +24,14 @@ class RegistrationFormType extends AbstractType
                 'attr' => array(
                     'class' => 'form-control'
                 ),
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a email',
-                    ]),
-                    new Email([
-                        'message' => 'Please enter a valid format',
-                    ]),
-                ],
+                // 'constraints' => [
+                //     new NotBlank([
+                //         'message' => 'Please enter a email',
+                //     ]),
+                //     new Email([
+                //         'message' => 'Please enter a valid format',
+                //     ]),
+                // ],
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
@@ -57,7 +57,7 @@ class RegistrationFormType extends AbstractType
                 // ],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter a password',
+                    'message' => 'Please enter a password',
                     ]),
                     new Length([
                         'min' => 6,

@@ -24,23 +24,23 @@ class ItemsFormType extends AbstractType
                 'attr' => array(
                     'class' => 'form-control mb-2'
                 ),
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a item name',
-                    ]),
-                    new Regex('/^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$/'),
-                ],
+                // 'constraints' => [
+                //     new NotBlank([
+                //         'message' => 'Please enter a item name',
+                //     ]),
+                //     new Regex('/^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$/'),
+                // ],
             ])
             ->add('color',ColorType::class,[
                 'label' => 'Pick color',
                 'attr' => array(
                     'class' => 'form-control mb-2'
                 ),
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please select a color',
-                    ]),
-                ],
+                // 'constraints' => [
+                //     new NotBlank([
+                //         'message' => 'Please select a color',
+                //     ]),
+                // ],
             ])->add('save', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-primary mb-3'],
             ]);
@@ -56,11 +56,11 @@ class ItemsFormType extends AbstractType
                         'Place on bottom of list' => 'bottom',
                     ],
                     'expanded' => true,
-                    'constraints' => [
-                        new NotNull([
-                            'message' => 'Please select a position',
-                        ]),
-                    ],
+                    // 'constraints' => [
+                    //     new NotNull([
+                    //         'message' => 'Please select a position',
+                    //     ]),
+                    // ],
                 ]);
             }
             

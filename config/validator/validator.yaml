@@ -1,0 +1,23 @@
+App\Entity\Lists:
+    properties:
+        list_name:
+            - NotBlank: ~
+            - Regex:
+                pattern: /^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$/
+
+App\Entity\Items:
+    properties:
+        item_name:
+            - NotBlank: ~
+            - Regex:
+                pattern: /^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$/
+        color:
+            - NotBlank: ~
+        order_by:
+            - NotBlank: ~
+
+App\Entity\User:
+    properties:
+        email:
+            - NotBlank: ~
+            - Email: ~
