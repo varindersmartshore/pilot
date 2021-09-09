@@ -5,15 +5,15 @@ namespace App\DataFixtures;
 use App\Entity\Users;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
-    private $encoder;
+    private $passwordHashInterface;
 
-    public function __construct(UserPasswordEncoderInterface $encoder)
+    public function __construct(UserPasswordHasherInterface $passwordHashInterface)
     {
-        $this->encoder = $encoder;
+        $this->passwordHashInterface = $passwordHashInterface;
     }
 
     // ...

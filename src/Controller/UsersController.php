@@ -6,7 +6,7 @@ use App\Entity\Users;
 use App\Form\AddUserFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,11 +23,11 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class UsersController extends AbstractController
 {
-    private $passwordEncoder;
+    private $passwordHashInterface;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(UserPasswordHasherInterface $passwordHashInterface)
     {
-        $this->passwordEncoder = $passwordEncoder;        
+        $this->passwordHashInterface = $passwordHashInterface;        
     }
 
     // Display list of users
