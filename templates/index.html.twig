@@ -37,8 +37,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% if list.getItems(list.id) is not empty %}
-                                    {% for item in list.getItems(list.id) %}
+                                {% if list.sortedItems is not empty %}
+                                    {% for item in list.sortedItems %}
                                         <tr>
                                             <td>
                                                 <span style="color: {{item.getColor(item.id)}} ">{{ item.getItemName(item.id) }}</span>

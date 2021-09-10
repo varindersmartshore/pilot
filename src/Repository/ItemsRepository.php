@@ -32,6 +32,19 @@ class ItemsRepository extends ServiceEntityRepository
         return $result;
     }
 
+    public function findByListIdGetOrderBy($listId): ?array
+    {
+        $result = $this->createQueryBuilder('i')
+            ->leftJoin('i.list_id', 'l')
+            ->where('l.id = :listId')
+            ->setParameter('listId', $listId->getId())
+            ->orderBy('i.order_by','ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+        return $result;
+    }
+
     // /**
     //  * @return Items[] Returns an array of Items objects
     //  */

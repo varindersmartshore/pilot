@@ -3,9 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\ListsRepository;
+use App\Repository\ItemsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Persistence\ManagerRegistry;
+use App\Service\ItemSort;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -13,6 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Lists
 {
+    private $em;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -26,8 +30,7 @@ class Lists
     private $list_name;
 
     /**
-     * @ORM\OneToMany(targetEntity=Items::class, mappedBy="list_id", orphanRemoval=true)
-     * @ORM\OrderBy({"order_by"="ASC"})
+     * @ORM\OneToMany(targetEntity=Items::class, mappedBy="list_id", orphanRemoval=true))
      */
     private $items;
 
@@ -37,9 +40,10 @@ class Lists
      */
     private $user;
 
-    public function __construct()
+    public function __construct(ManagerRegistry $registry)
     {
         $this->items = new ArrayCollection();
+        $this->em = $registry;
     }
 
     public function getId(): ?int
