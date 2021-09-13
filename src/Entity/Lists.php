@@ -7,8 +7,6 @@ use App\Repository\ItemsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Persistence\ManagerRegistry;
-use App\Service\ItemSort;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -40,10 +38,9 @@ class Lists
      */
     private $user;
 
-    public function __construct(ManagerRegistry $registry)
+    public function __construct()
     {
         $this->items = new ArrayCollection();
-        $this->em = $registry;
     }
 
     public function getId(): ?int
