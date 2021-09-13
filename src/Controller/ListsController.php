@@ -9,9 +9,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ListsController extends AbstractController
 {
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;        
+    }
+
     /**
      * @Route("/lists", name="lists")
      */
@@ -37,7 +43,8 @@ class ListsController extends AbstractController
             $list->setUser($this->getUser());
             $entityManager->persist($list);
             $entityManager->flush();
-            $this->addFlash('success', 'The list is added!');
+            $translated = $this->translator->trans('The list is added!');
+            $this->addFlash('success', $translated);
             return $this->redirectToRoute('index');
         }
         return $this->render('lists/add.html.twig', [
@@ -62,14 +69,16 @@ class ListsController extends AbstractController
                 //$lists = $form->getData();
                 $entityManager->persist($list);
                 $entityManager->flush();
-                $this->addFlash('success', 'The list is updated!');
+                $translated = $this->translator->trans('The list is updated!');
+                $this->addFlash('success', $translated);
                 return $this->redirectToRoute('index');
             }
             return $this->render('lists/edit.html.twig', [
                 'form' => $form->createView(),
             ]);
         } else {
-            $this->addFlash('failed', 'Please select valid item!');
+            $translated = $this->translator->trans('Please select valid list!');
+            $this->addFlash('failed', $translated);
             return $this->redirectToRoute('index');
         }
     }
@@ -83,11 +92,13 @@ class ListsController extends AbstractController
         if (!empty($list) && $method == "DELETE") {
             $entityManager->remove($list);
             $entityManager->flush();
-            $this->addFlash('success', 'The list has been deleted!');
+            $translated = $this->translator->trans('The list has been deleted!');
+            $this->addFlash('success', $translated);
             return $this->redirectToRoute('index');
         } else {
-            $this->addFlash('failed', 'The list has not been deleted!');
+            $translated = $this->translator->trans('The list has not been deleted!');
+            $this->addFlash('failed', $translated);
             return $this->redirectToRoute('index');
-        }
+        }  
     }
 }

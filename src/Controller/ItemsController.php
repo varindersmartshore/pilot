@@ -10,9 +10,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ItemsController extends AbstractController
 {
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;        
+    }
     /**
      * @Route("/items", name="items")
      */
@@ -46,7 +51,8 @@ class ItemsController extends AbstractController
                 $item->setListId($list);
                 $entityManager->persist($item);
                 $entityManager->flush();
-                $this->addFlash('success', 'The item is added!');
+                $translated = $this->translator->trans('The item is added!');
+                $this->addFlash('success', $translated);
                 return $this->redirectToRoute('index');
 
             }
@@ -54,7 +60,8 @@ class ItemsController extends AbstractController
                 'form' => $form->createView(),
             ]);
         } else {
-            $this->addFlash('failed', 'Please select valid list!');
+            $translated = $this->translator->trans('Please select valid list!');
+            $this->addFlash('failed', $translated);
             return $this->redirectToRoute('index');
         }
     }
@@ -73,14 +80,16 @@ class ItemsController extends AbstractController
                 $items = $form->getData();
                 $entityManager->persist($items);
                 $entityManager->flush();
-                $this->addFlash('success', 'The item is updated!');
+                $translated = $this->translator->trans('The item is updated!');
+                $this->addFlash('success', $translated);
                 return $this->redirectToRoute('index');
             }
             return $this->render('items/edit.html.twig', [
                 'form' => $form->createView(),
             ]);
         } else {
-            $this->addFlash('failed', 'Please select valid item!');
+            $translated = $this->translator->trans('Please select valid item!');
+            $this->addFlash('failed', $translated);
             return $this->redirectToRoute('index');
         }
     }
@@ -94,10 +103,12 @@ class ItemsController extends AbstractController
         if (!empty($item) && $method == "DELETE") {
             $entityManager->remove($item);
             $entityManager->flush();
-            $this->addFlash('success', 'The item has been deleted!');
+            $translated = $this->translator->trans('The item has been deleted!');
+            $this->addFlash('success', $translated);
             return $this->redirectToRoute('index');
         } else {
-            $this->addFlash('failed', 'The item has not been deleted!');
+            $translated = $this->translator->trans('The item has not been deleted!');
+            $this->addFlash('failed', $translated);
             return $this->redirectToRoute('index');
         }
     }
