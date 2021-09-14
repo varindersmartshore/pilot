@@ -1,5 +1,12 @@
-The list is added!: De lijst is toegevoegd!
-The list is updated!: De lijst is bijgewerkt!
-Please select valid list!: Selecteer een geldige lijst!
-The list has been deleted!: De lijst is verwijderd!
-The list has not been deleted!: De lijst is niet verwijderd!
+list:
+  add: De lijst is toegevoegd!
+  update: De lijst is bijgewerkt!
+  delete: De lijst is verwijderd!
+  notdelete: De lijst is niet verwijderd!
+  valid: Selecteer een geldige lijst!
+item:
+  add: Het artikel is toegevoegd!
+  update: Het artikel is bijgewerkt!
+  delete: Het artikel is verwijderd!
+  notdelete: Het item is niet verwijderd!
+  valid: Selecteer een geldig artikel!

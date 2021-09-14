@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class ListsController extends AbstractController
 {
@@ -43,7 +45,7 @@ class ListsController extends AbstractController
             $list->setUser($this->getUser());
             $entityManager->persist($list);
             $entityManager->flush();
-            $translated = $this->translator->trans('The list is added!');
+            $translated = $this->translator->trans('list.add');
             $this->addFlash('success', $translated);
             return $this->redirectToRoute('index');
         }
@@ -69,7 +71,7 @@ class ListsController extends AbstractController
                 //$lists = $form->getData();
                 $entityManager->persist($list);
                 $entityManager->flush();
-                $translated = $this->translator->trans('The list is updated!');
+                $translated = $this->translator->trans('list.update');
                 $this->addFlash('success', $translated);
                 return $this->redirectToRoute('index');
             }
@@ -77,7 +79,7 @@ class ListsController extends AbstractController
                 'form' => $form->createView(),
             ]);
         } else {
-            $translated = $this->translator->trans('Please select valid list!');
+            $translated = $this->translator->trans('list.valid');
             $this->addFlash('failed', $translated);
             return $this->redirectToRoute('index');
         }
@@ -92,13 +94,53 @@ class ListsController extends AbstractController
         if (!empty($list) && $method == "DELETE") {
             $entityManager->remove($list);
             $entityManager->flush();
-            $translated = $this->translator->trans('The list has been deleted!');
+            $translated = $this->translator->trans('list.delete');
             $this->addFlash('success', $translated);
             return $this->redirectToRoute('index');
         } else {
-            $translated = $this->translator->trans('The list has not been deleted!');
+            $translated = $this->translator->trans('list.notdelete');
             $this->addFlash('failed', $translated);
             return $this->redirectToRoute('index');
         }  
+    }
+
+    private function getData(): array
+    {
+        /**
+         * @var $list Lists[]
+         */
+        $getList = [];
+        $lists = $this->getDoctrine()->getRepository(Lists::class)->findAll();
+
+        foreach ($lists as $list) {
+            $getList[] = [
+                $list->getId(),
+                $list->getListName()
+            ];
+        }
+        return $getList;
+    }
+
+    /**
+     * @Route("/export",  name="export")
+     */
+    public function export()
+    {
+        $spreadsheet = new Spreadsheet();
+
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $sheet->setTitle('List');
+
+        $sheet->getCell('A1')->setValue('ID');
+        $sheet->getCell('B1')->setValue('List Name');
+
+        // Increase row cursor after header write
+        $sheet->fromArray($this->getData(),null, 'A2', true);
+        $filePath = 'lists.xlxs';
+        $writer = new Xlsx($spreadsheet);
+        $writer->save($filePath);
+
+        return $this->redirectToRoute('index');
     }
 }

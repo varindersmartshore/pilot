@@ -1,0 +1,12 @@
+list:
+  add: The list is added!
+  update: The list is updated!
+  delete: The list has been deleted!
+  notdelete: The list has not been deleted!
+  valid: Please select valid list!
+item:
+  add: The item is added!
+  update: The item is updated!
+  delete: The item has been deleted!
+  notdelete: The item has not been deleted!
+  valid: Please select valid item!

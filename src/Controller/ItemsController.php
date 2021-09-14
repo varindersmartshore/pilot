@@ -51,7 +51,7 @@ class ItemsController extends AbstractController
                 $item->setListId($list);
                 $entityManager->persist($item);
                 $entityManager->flush();
-                $translated = $this->translator->trans('The item is added!');
+                $translated = $this->translator->trans('item.add');
                 $this->addFlash('success', $translated);
                 return $this->redirectToRoute('index');
 
@@ -60,7 +60,7 @@ class ItemsController extends AbstractController
                 'form' => $form->createView(),
             ]);
         } else {
-            $translated = $this->translator->trans('Please select valid list!');
+            $translated = $this->translator->trans('list.valid');
             $this->addFlash('failed', $translated);
             return $this->redirectToRoute('index');
         }
@@ -80,7 +80,7 @@ class ItemsController extends AbstractController
                 $items = $form->getData();
                 $entityManager->persist($items);
                 $entityManager->flush();
-                $translated = $this->translator->trans('The item is updated!');
+                $translated = $this->translator->trans('item.update');
                 $this->addFlash('success', $translated);
                 return $this->redirectToRoute('index');
             }
@@ -88,7 +88,7 @@ class ItemsController extends AbstractController
                 'form' => $form->createView(),
             ]);
         } else {
-            $translated = $this->translator->trans('Please select valid item!');
+            $translated = $this->translator->trans('item.valid');
             $this->addFlash('failed', $translated);
             return $this->redirectToRoute('index');
         }
@@ -103,11 +103,11 @@ class ItemsController extends AbstractController
         if (!empty($item) && $method == "DELETE") {
             $entityManager->remove($item);
             $entityManager->flush();
-            $translated = $this->translator->trans('The item has been deleted!');
+            $translated = $this->translator->trans('item.delete');
             $this->addFlash('success', $translated);
             return $this->redirectToRoute('index');
         } else {
-            $translated = $this->translator->trans('The item has not been deleted!');
+            $translated = $this->translator->trans('item.notdelete');
             $this->addFlash('failed', $translated);
             return $this->redirectToRoute('index');
         }
