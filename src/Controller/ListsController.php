@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Symfony\Component\Routing\Exception\NoConfigurationException;
 
 class ListsController extends AbstractController
 {
@@ -79,9 +80,7 @@ class ListsController extends AbstractController
                 'form' => $form->createView(),
             ]);
         } else {
-            $translated = $this->translator->trans('list.valid');
-            $this->addFlash('failed', $translated);
-            return $this->redirectToRoute('index');
+            throw $this->createNotFoundException($this->translator->trans('list.valid'), new NoConfigurationException());
         }
     }
 

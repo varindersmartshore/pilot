@@ -136,6 +136,15 @@
     "php": {
         "version": "7.2"
     },
+    "phpdocumentor/reflection-common": {
+        "version": "2.2.0"
+    },
+    "phpdocumentor/reflection-docblock": {
+        "version": "5.2.2"
+    },
+    "phpdocumentor/type-resolver": {
+        "version": "1.4.0"
+    },
     "phpoffice/phpspreadsheet": {
         "version": "1.18.0"
     },
@@ -162,6 +171,18 @@
     },
     "psr/simple-cache": {
         "version": "1.0.1"
+    },
+    "sensiolabs/security-checker": {
+        "version": "4.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.0",
+            "ref": "160c9b600564faa1224e8f387d49ef13ceb8b793"
+        },
+        "files": [
+            "config/packages/security_checker.yaml"
+        ]
     },
     "swiftmailer/swiftmailer": {
         "version": "v6.2.7"
@@ -259,6 +280,9 @@
             "version": "4.4",
             "ref": "f8fd4ddb9b477510f8f4bce2b9c054ab428c0120"
         }
+    },
+    "symfony/http-client": {
+        "version": "v5.3.7"
     },
     "symfony/http-client-contracts": {
         "version": "v2.4.0"
@@ -405,6 +429,9 @@
     "symfony/security-http": {
         "version": "v5.3.6"
     },
+    "symfony/serializer": {
+        "version": "v5.3.4"
+    },
     "symfony/service-contracts": {
         "version": "v2.4.0"
     },
@@ -518,7 +545,13 @@
     "symfony/yaml": {
         "version": "v5.3.6"
     },
+    "twig/extra-bundle": {
+        "version": "v3.3.3"
+    },
     "twig/twig": {
         "version": "v3.3.2"
+    },
+    "webmozart/assert": {
+        "version": "1.10.0"
     }
 }
